@@ -194,6 +194,10 @@ class UsuarioController {
             const userID = request.params.id;
             const usuario = await Usuario.findByPk(userID);
 
+            const localCadastrado = await Local.findAll({
+                where: { usuarioId: userID },
+            });
+
             if (!userID) {
                 return response.status(400).json({
                     message: "É necessário passar o ID como route params",
@@ -203,6 +207,13 @@ class UsuarioController {
             if (!usuario) {
                 return response.status(404).json({
                     message: "Usuário não encontrado",
+                });
+            }
+
+            if (localCadastrado) {
+                return response.status(400).json({
+                    message:
+                        "O usuário não pode ser deletado, possui locais cadastrados",
                 });
             }
 
