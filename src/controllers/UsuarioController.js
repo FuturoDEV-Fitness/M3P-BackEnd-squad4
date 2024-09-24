@@ -84,7 +84,7 @@ class UsuarioController {
       if (!dados.municipio) {
         return response
           .status(400)
-          .json({ mensagem: "O municiódio é obrigatório" });
+          .json({ mensagem: "O município é obrigatório" });
       }
 
       if (!dados.uf) {
@@ -145,28 +145,11 @@ class UsuarioController {
           ["id", "ID do Usuário"],
           ["nome", "Nome do Usuário"],
           ["email", "Email"],
-          ["createdAt", "Criado em"]
+          ["createdAt", "Criado em"],
+          "isOnline"
         ],
         order: ["id"]
       });
-
-      // include: {
-      //  model: Local,
-      //  as: "locais",
-      //  attributes: [
-      //   "id",
-      //   "nome",
-      //   "descricao",
-      //   "cep",
-      //   "logradouro",
-      //   "municipio",
-      //   "uf"
-      //  ],
-      //  include: {
-      //   model: Atividade,
-      //   through: { attributes: [] }
-      //  }
-      // }
 
       if (!usuarios) {
         return response.status(404).json({
