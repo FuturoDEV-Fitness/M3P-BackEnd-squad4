@@ -1,9 +1,11 @@
-const  {Router} = require('express')
-const UsuarioController = require('../controllers/UsuarioController')
+const { Router } = require("express");
+const UsuarioController = require("../controllers/UsuarioController");
 
-const usuariosRoutes = new Router()
+const usuariosRoutes = new Router();
 
-usuariosRoutes.post('/', UsuarioController.cadastrarUsuario
+usuariosRoutes.post(
+    "/",
+    UsuarioController.cadastrarUsuario
     /* 
     #swagger.tags = ['Usuário']
     #swagger.path = '/usuarios'
@@ -44,8 +46,10 @@ usuariosRoutes.post('/', UsuarioController.cadastrarUsuario
         description: 'Internal Server Error'
     }                                
     */
-)
-usuariosRoutes.get('/', UsuarioController.listarUsuarios
+);
+usuariosRoutes.get(
+    "/",
+    UsuarioController.listarUsuarios
     /* 
     #swagger.tags = ['Usuário']
     #swagger.path = '/usuarios'
@@ -64,6 +68,8 @@ usuariosRoutes.get('/', UsuarioController.listarUsuarios
         description: 'Internal Server Error'        
     }
     */
-)
+);
 
-module.exports = usuariosRoutes
+usuariosRoutes.delete("/:id", UsuarioController.deletarUsuarios);
+
+module.exports = usuariosRoutes;

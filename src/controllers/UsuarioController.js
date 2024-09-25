@@ -67,11 +67,9 @@ class UsuarioController {
             if (
                 !(dados.password?.length >= 8 && dados.password?.length <= 16)
             ) {
-                return response
-                    .status(400)
-                    .json({
-                        mensagem: "A senha deve ter entre 8 e 16 dígitos",
-                    });
+                return response.status(400).json({
+                    mensagem: "A senha deve ter entre 8 e 16 dígitos",
+                });
             }
 
             if (!(dados.confirmaPassword === dados.password)) {
@@ -178,6 +176,44 @@ class UsuarioController {
         } catch (error) {
             response.status(500).json({
                 mensagem: "Erro ao buscar os usuários: ",
+                error,
+            });
+        }
+    }
+
+    async deletarUsuarios(request, response) {
+        try {
+            const userID = request.params.id;
+            const usuario = await Usuario.findByPk(userID);
+
+            const localCadastrado = await Local.findAll({
+                where: { usuarioId: userID },
+            });
+
+            if (!userID) {
+                return response.status(400).json({
+                    message: "É necessário passar o ID como route params",
+                });
+            }
+
+            if (!usuario) {
+                return response.status(404).json({
+                    message: "Usuário não encontrado",
+                });
+            }
+
+            if (localCadastrado) {
+                return response.status(400).json({
+                    message:
+                        "O usuário não pode ser deletado, possui locais cadastrados",
+                });
+            }
+
+            await usuario.destroy();
+            return response.status(204).json();
+        } catch (error) {
+            return response.status(500).json({
+                mensagem: "Erro ao deletar o usuário",
                 error,
             });
         }
