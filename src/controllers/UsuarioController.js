@@ -218,6 +218,43 @@ class UsuarioController {
             });
         }
     }
+
+    async atualizarUsuarios(request, response) {
+        try {
+            const userID = request.params.id;
+            const dados = request.body;
+            const usuario = await Usuario.findByPk(userID);
+
+            if (!dados || Object.keys(dados).length === 0) {
+                return response.status(400).json({
+                    message:
+                        "É necessário passar os dados do usuário que deseja atualizar como corpo da requisição",
+                });
+            }
+
+            if (!usuario) {
+                return response.status(404).json({
+                    message: "Usuário não encontrado",
+                });
+            }
+
+            usuario.nome = dados.nome || usuario.nome;
+            usuario.email = dados.email || usuario.email;
+
+            if (dados.password) {
+                usuario.password_hash = dados.password;
+                usuario.confirma_password_hash = usuario.password_hash;
+            }
+            await usuario.save();
+            return response.status(200).json({
+                message: "Usuário atualizado com sucesso",
+            });
+        } catch (error) {
+            response.status(500).json({
+                mensagem: "Erro ao atualizar o usuário",
+            });
+        }
+    }
 }
 
 module.exports = new UsuarioController();

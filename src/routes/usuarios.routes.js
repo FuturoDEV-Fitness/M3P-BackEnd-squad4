@@ -72,4 +72,6 @@ usuariosRoutes.get(
 
 usuariosRoutes.delete("/:id", UsuarioController.deletarUsuarios);
 
+usuariosRoutes.put("/:id", UsuarioController.atualizarUsuarios);
+
 module.exports = usuariosRoutes;
