@@ -70,6 +70,62 @@ usuariosRoutes.get(
     */
 );
 
-usuariosRoutes.delete("/:id", UsuarioController.deletarUsuarios);
+usuariosRoutes.delete(
+    "/:id",
+    UsuarioController.deletarUsuarios
+    /* 
+    #swagger.tags = ['Usuário']
+    #swagger.path = '/usuarios'
+    #swagger.method = 'delete'
+    #swagger.description = 'Deleta o usuário quando passado o id como params'
+    #swagger.parameters['userID'] = {
+        in: 'path',
+        description: 'ID do usuario',
+        required: true,
+        type: 'integer'
+    }
+    #swagger.responses[200] = {
+        description: 'OK'        
+    }
+    #swagger.responses[401] = {
+        description: 'Unauthorized'
+    }
+    #swagger.responses[404] = {
+        description: 'Not Found'
+    }
+    #swagger.responses[500] = {
+        description: 'Internal Server Error'        
+    }
+    */
+);
+
+usuariosRoutes.put(
+    "/:id",
+    UsuarioController.atualizarUsuarios
+    /* 
+    #swagger.tags = ['Usuário']
+    #swagger.path = '/usuarios'
+    #swagger.method = 'put'
+    #swagger.description = 'Atualiza o usuário quando passado o id como params'
+     #swagger.parameters['userID'] = {
+        in: 'path',
+        description: 'ID do usuario',
+        required: true,
+        type: 'integer'
+    }
+    #swagger.responses[200] = {
+        description: 'OK'        
+    }
+    #swagger.responses[401] = {
+        description: 'Unauthorized'
+    }
+    #swagger.responses[404] = {
+        description: 'Not Found'
+    }
+    #swagger.responses[500] = {
+        description: 'Internal Server Error'        
+    }
+    */
+);
 
 module.exports = usuariosRoutes;
