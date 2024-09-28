@@ -1,9 +1,10 @@
+require('dotenv').config();
 const swaggerAutogen = require('swagger-autogen')();
 
 const outputFile = 'src/config/docs/swagger.json';
 const endpointsFiles = ['src/routes/routes.js'];
 
-const hostname = 'localhost' || 'exerciseopenair-api.onrender.com';
+const hostname = process.env.APP_HOST || 'localhost';
 const port = process.env.APP_PORT || 3000;
 
 const doc = {
