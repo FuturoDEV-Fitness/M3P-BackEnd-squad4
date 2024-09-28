@@ -3,7 +3,7 @@ const swaggerAutogen = require('swagger-autogen')();
 const outputFile = 'src/config/docs/swagger.json';
 const endpointsFiles = ['src/routes/routes.js'];
 
-const hostname = 'exerciseopenair-api.onrender.com' || 'localhost';
+const hostname = 'localhost' || 'exerciseopenair-api.onrender.com';
 const port = process.env.APP_PORT || 3000;
 
 const doc = {
@@ -12,8 +12,8 @@ const doc = {
         description: "API para gerenciamento de locais e atividades",
         version: "1.0.0",
     },
-    host: `${hostname}`,
-    schemes: ["https"],
+    host: `${hostname}:${port}`,
+    schemes: ["http"],
     security: [{ apiKeyAuth: [] }],
     securityDefinitions: {
         apiKeyAuth: {
