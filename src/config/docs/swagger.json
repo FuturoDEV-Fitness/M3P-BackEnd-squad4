@@ -322,6 +322,22 @@
         }
       }
     },
+    "/dashboard": {
+      "get": {
+        "tags": [
+          "dashboard"
+        ],
+        "description": "End Point para lista todos os locais sem estar logado.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro ao listar os locais"
+          }
+        }
+      }
+    },
     "/locais": {
       "post": {
         "tags": [
