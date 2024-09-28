@@ -5,38 +5,6 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert("usuarios", [
       {
-        nome: "Teste",
-        cpf: "00000000000",
-        dataNascimento: new Date("2000-01-01"),
-        email: "teste@example.com",
-        password_hash:
-          "$2a$10$MahaPiRuoWb1uYiBeh6zXOrDv8HnOgBOa9TR3gvJdEhHSPqQXvWWO",
-        confirma_password_hash:
-          "$2a$10$MahaPiRuoWb1uYiBeh6zXOrDv8HnOgBOa9TR3gvJdEhHSPqQXvWWO",
-        cep: "12345678",
-        logradouro: "Vale do Silício Brasileira",
-        municipio: "Florianópolis",
-        uf: "SC",
-        createdAt: new Date("2024-07-22 13:00:00"),
-        updatedAt: new Date("2024-07-22 13:00:00"),
-      },
-      {
-        nome: "Paulo",
-        cpf: "11111111111",
-        dataNascimento: new Date("2000-01-01"),
-        email: "joaquim@example.com",
-        password_hash:
-          "$2a$10$MahaPiRuoWb1uYiBeh6zXOrDv8HnOgBOa9TR3gvJdEhHSPqQXvWWO",
-        confirma_password_hash:
-          "$2a$10$MahaPiRuoWb1uYiBeh6zXOrDv8HnOgBOa9TR3gvJdEhHSPqQXvWWO",
-        cep: "12345678",
-        logradouro: "Rua das Flores",
-        municipio: "São Paulo",
-        uf: "SP",
-        createdAt: new Date("2024-07-22 13:00:00"),
-        updatedAt: new Date("2024-07-22 13:00:00"),
-      },
-      {
         nome: "Maria",
         cpf: "22222222222",
         dataNascimento: new Date("2000-01-01"),
@@ -84,6 +52,38 @@ module.exports = {
         createdAt: new Date("2024-07-22 13:00:00"),
         updatedAt: new Date("2024-07-22 13:00:00"),
       },
+      {
+        nome: "Alana",
+        cpf: "55555555555",
+        dataNascimento: new Date("2000-01-01"),
+        email: "alana@example.com",
+        password_hash:
+          "$2a$10$MahaPiRuoWb1uYiBeh6zXOrDv8HnOgBOa9TR3gvJdEhHSPqQXvWWO",
+        confirma_password_hash:
+          "$2a$10$MahaPiRuoWb1uYiBeh6zXOrDv8HnOgBOa9TR3gvJdEhHSPqQXvWWO",
+        cep: "12345678",
+        logradouro: "Rua das Flores",
+        municipio: "Rio de Janeiro",
+        uf: "RJ",
+        createdAt: new Date("2024-07-22 13:00:00"),
+        updatedAt: new Date("2024-07-22 13:00:00"),
+      },
+      {
+        nome: "Frank",
+        cpf: "66666666666",
+        dataNascimento: new Date("2000-01-01"),
+        email: "frank@example.com",
+        password_hash:
+          "$2a$10$MahaPiRuoWb1uYiBeh6zXOrDv8HnOgBOa9TR3gvJdEhHSPqQXvWWO",
+        confirma_password_hash:
+          "$2a$10$MahaPiRuoWb1uYiBeh6zXOrDv8HnOgBOa9TR3gvJdEhHSPqQXvWWO",
+        cep: "12345678",
+        logradouro: "Rua das Flores",
+        municipio: "Rio de Janeiro",
+        uf: "RJ",
+        createdAt: new Date("2024-07-22 13:00:00"),
+        updatedAt: new Date("2024-07-22 13:00:00"),
+      }
     ]);
   },
 
