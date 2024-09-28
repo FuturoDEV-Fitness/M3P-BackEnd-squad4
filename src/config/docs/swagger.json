@@ -5,10 +5,10 @@
     "description": "API para gerenciamento de locais e atividades",
     "version": "1.0.0"
   },
-  "host": "exerciseopenair-api.onrender.com",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
-    "https"
+    "http"
   ],
   "securityDefinitions": {
     "apiKeyAuth": {
@@ -318,6 +318,22 @@
           },
           "500": {
             "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/dashboard": {
+      "get": {
+        "tags": [
+          "dashboard"
+        ],
+        "description": "End Point para lista todos os locais sem estar logado.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro ao listar os locais"
           }
         }
       }

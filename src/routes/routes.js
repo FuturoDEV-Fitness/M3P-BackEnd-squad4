@@ -8,6 +8,7 @@ const usuariosRoutes = require('./usuarios.routes')
 const loginRoutes = require('./login.routes')
 const localRoutes = require('./locais.routes')
 const atividadeRoutes = require('./atividades.routes')
+const dasboardRoutes = require('./dashboard.routes')
 const validaToken = require('../middlewares/validaToken')
 
 
@@ -16,7 +17,7 @@ const validaToken = require('../middlewares/validaToken')
 routes.use('/usuarios', usuariosRoutes)
 routes.use('/login', loginRoutes)
 routes.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
-
+routes.use('/dashboard/', dasboardRoutes)
 
 // Privadas
 routes.use(validaToken)
