@@ -20,6 +20,5 @@ RUN apt-get update && apt-get install -y postgresql-client && npm install -y seq
 
 EXPOSE 3000
 
-CMD ["npm", "run", "db:migrate"]
-CMD ["npm", "run", "db:seed"]
-CMD ["npm", "run", "start:prod"]
+
+CMD ["sh", "-c", "npm run db:migrate && npm run db:seed && npm run start:prod"]
