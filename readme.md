@@ -14,6 +14,8 @@ Encontrar locais adequados para exercícios ao ar livre pode ser desafiador, esp
 - _APIs:_ ViaCep e Awesomeapi para consultas de Cep e localização.
 - _Banco de Dados:_ PostgreSQL
 - _Swagger:_ para documentação da API
+- _Docker:_ para containers
+
 
 ## Modelo de Dados
 
@@ -72,17 +74,22 @@ Encontrar locais adequados para exercícios ao ar livre pode ser desafiador, esp
 - NodeJS
 - PostgreSQL
 
-## Passos
+## Passos para Executar
 
 1. Clone o repositório para sua máquina local.
-2. Instale as dependências com: npm install.
-3. Crie um banco de dados.
-4. Ajuste as configurações do .env para o seu ambiente.
-5. Execute as migrations com: npm run db:migrate.
-6. Execute os seeds com: npm run db:seed.
-7. Gerar a documentação da API com: npm run swagger.
-8. Inicie o servidor com: npm run start:dev.
-9. Acesse http://localhost:3000/docs/ para visualizar a documentação em seu navegador.
+2. Ajuste as configurações do .env para o seu ambiente.
+3. Instale as dependências com: npm install.
+4. Execute o comando npm run start:db para criar o banco de dados e popular as tabelas.
+5. Gerar a documentação da API com: npm run swagger.
+6. Inicie o servidor com: npm run start:dev.
+7. Acesse http://localhost:3000/docs/ para visualizar a documentação em seu navegador.
+
+##### OBS: Realizar os passos 1 a 5 apenas uma vez.
+
+# Passos para Desenvolver 
+
+1. Abrir o terminal no diretório do projeto
+2. Digite: docker-compose up -d --build
 
 ## Melhorias Futuras
 
@@ -98,6 +105,9 @@ Contribuições são sempre bem-vindas! Por favor, leia o arquivo CONTRIBUTING.m
 
 Distribuído sob a licença MIT. Veja LICENSE para mais informações.
 
-## Contato
+## Autores
 
-- Douglas Panizza Cugliari dos Santos - douglas.cugliari@gmail.com
+- [@TThaz](https://www.github.com/TThaz) - PO/DEV
+- [@douglascugliarisenai](https://www.github.com/douglascugliarisenai) - DEV
+- [@alanamandimifsc](https://www.github.com/alanamandimifsc) - DEV
+- [@frankosorio4](https://www.github.com/frankosorio4) - DEV
