@@ -10,51 +10,37 @@ class LocalController {
         try {
             const dados = request.body
 
-            const usuario = await Usuario.findOne({ where: { email: dados.usuario } })
-
-            if(!(dados.nome)){
-                return response 
+            if (!(dados.nome)) {
+                return response
                     .status(400)
                     .json({ mensagem: 'O nome do local é obrigatório' })
             }
 
-            if(!(dados.cep)){
+            if (!(dados.cep)) {
                 return response
                     .status(400)
                     .json({ mensagem: 'O CEP é obrigatório' })
             }
 
-            if(!(dados.logradouro)){
+            if (!(dados.logradouro)) {
                 return response
                     .status(400)
                     .json({ mensagem: 'O logradouro é obrigatório' })
             }
 
-            if(!(dados.municipio)){
+            if (!(dados.municipio)) {
                 return response
                     .status(400)
                     .json({ mensagem: 'O municipio é obrigatório' })
             }
 
-            if(!(dados.uf)){
+            if (!(dados.uf)) {
                 return response
                     .status(400)
                     .json({ mensagem: 'O UF é obrigatório' })
             }
 
-            if(!(usuario.id)){
-                return response
-                    .status(400)
-                    .json({ mensagem: 'O ID do usuario é obrigatório' })
-            }
-
-           const usuarioExiste = await Usuario.findOne({ where: { id: usuario.id } })
-
-            if (!(usuarioExiste)) {
-                return response
-                    .status(400)
-                    .json({ mensagem: 'O ID do usuario não existe' })
-            }
+            //validar latitude e longitude
 
             const { lat, lng } = await getLatitudeLongitude(dados.cep)
 
@@ -62,17 +48,35 @@ class LocalController {
 
             const local = await Local.create({
                 ...dados,
-                usuarioId: parseInt(usuario.id),
+                usuarioId: parseInt(request.usuarioId),
+                // usuarioId: parseInt(usuario.id),
                 latitude: lat,
                 longitude: lng,
                 linkmap: linkGoogleMaps
             })
 
-        
-            if (dados.atividades && dados.atividades.length > 0) {
-                const idsAtividades = dados.atividades.map(id => parseInt(id, 10))
-                const atividadesEncontradas = await Atividade.findAll({ where: {id: {[Op.in]: [...idsAtividades]}} })
-          
+            console.log("atividades",dados.atividades)
+
+            if (dados.atividades) {
+                const atividadesTrue = Object.entries(dados.atividades)
+                    .filter(([key, value]) => value === true)
+                    .map(([key]) => key);
+                console.log("atividades true",atividadesTrue)
+
+                //search the activity id in bd
+                const atividadesEncontradas = await Atividade.findAll({
+                    where: {
+                        nomeAtividade: {
+                            [Op.in]: atividadesTrue
+                        }
+                    },
+                    attributes: ['id'] 
+                });
+                
+                // Extract the IDs from the result
+                const atividadesIds = atividadesEncontradas.map(atividade => atividade.id);
+                console.log("atividades Id",atividadesIds)
+
                 await local.addAtividades(atividadesEncontradas);
             }
 
@@ -87,11 +91,11 @@ class LocalController {
         } catch (error) {
             console.log(error)
             response
-            .status(500)
-            .json({
-                mensagem: 'Erro ao cadastrar o local: ',
-                error
-            })
+                .status(500)
+                .json({
+                    mensagem: 'Erro ao cadastrar o local: ',
+                    error
+                })
         }
     }
 
@@ -107,11 +111,12 @@ class LocalController {
                     })
             }
 
-            const locais = await Local.findAll({ where: { usuarioId: request.usuarioId },             
+            const locais = await Local.findAll({
+                where: { usuarioId: request.usuarioId },
                 include: {
                     model: Atividade,
-                    through: { attributes: [] } 
-                  }
+                    through: { attributes: [] }
+                }
             })
             return response
                 .status(200)
@@ -119,29 +124,30 @@ class LocalController {
 
         } catch (error) {
             response
-            .status(500)
-            .json({
-                mensagem: 'Erro ao buscar os locais: ',
-                error
-            })
+                .status(500)
+                .json({
+                    mensagem: 'Erro ao buscar os locais: ',
+                    error
+                })
         }
     }
 
     async listarPorId(request, response) {
         try {
             const { id } = request.params
-            
+
             if (!(id)) {
                 return response
                     .status(400)
                     .json({ mensagem: 'O ID do local é obrigatório' })
             }
 
-            const local = await Local.findOne({ where: { id, usuarioId: request.usuarioId }, 
-                 include: {
+            const local = await Local.findOne({
+                where: { id, usuarioId: request.usuarioId },
+                include: {
                     model: Atividade,
-                    through: { attributes: [] } 
-                  }
+                    through: { attributes: [] }
+                }
             })
 
             if (!(local)) {
@@ -154,15 +160,15 @@ class LocalController {
 
             return response
                 .status(200)
-                .json(local)    
+                .json(local)
 
         } catch (error) {
             response
-            .status(500)
-            .json({
-                mensagem: 'Erro ao buscar o local: ',
-                error
-            })
+                .status(500)
+                .json({
+                    mensagem: 'Erro ao buscar o local: ',
+                    error
+                })
         }
     }
 
@@ -177,44 +183,44 @@ class LocalController {
                     .json({
                         message: 'Local não encontrado'
                     })
-            } 
-            
-            if(local.linkmap === null || local.linkmap === undefined) {
+            }
+
+            if (local.linkmap === null || local.linkmap === undefined) {
                 return response
                     .status(404)
                     .json({
                         message: 'Local não possui link de mapas'
                     })
-            }   
-            
+            }
+
             return response
                 .status(200)
-                .json({urlLocal: local.linkmap })
+                .json({ urlLocal: local.linkmap })
 
         } catch (error) {
             response
-            .status(500)
-            .json({
-                mensagem: 'Erro ao buscar o local: ',
-                error
-            })
+                .status(500)
+                .json({
+                    mensagem: 'Erro ao buscar o local: ',
+                    error
+                })
         }
     }
 
     async deletarLocal(request, response) {
         try {
             const { id } = request.params
-            
+
             const local = await Local.findOne({ where: { id } })
 
-            if(local.dataValues.usuarioId !== null || local.dataValues.usuarioId !== undefined) {
-                return response
-                    .status(403)
-                    .json({
-                        message: 'Local não pode ser excluído'
-                    })
-            }
-            
+            // if(local.dataValues.usuarioId !== null || local.dataValues.usuarioId !== undefined) {
+            //     return response
+            //         .status(403)
+            //         .json({
+            //             message: 'Local não pode ser excluído'
+            //         })
+            // }
+
             if (!(local)) {
                 return response
                     .status(404)
@@ -226,18 +232,18 @@ class LocalController {
             await Local.destroy({ where: { id } })
 
             return response
-                .status(204)
+                .status(200)
                 .json({
                     message: 'Local excluído com sucesso'
                 })
 
         } catch (error) {
             response
-            .status(500)
-            .json({
-                mensagem: 'Erro ao excluir o local: ',
-                error
-            })
+                .status(500)
+                .json({
+                    mensagem: 'Erro ao excluir o local: ',
+                    error
+                })
         }
     }
 
@@ -263,14 +269,14 @@ class LocalController {
                     message: 'Local atualizado com sucesso',
                     local
                 })
-                
+
         } catch (error) {
             response
-            .status(500)
-            .json({
-                mensagem: 'Erro ao atualizar o local: ',
-                error
-            })
+                .status(500)
+                .json({
+                    mensagem: 'Erro ao atualizar o local: ',
+                    error
+                })
         }
     }
 }
