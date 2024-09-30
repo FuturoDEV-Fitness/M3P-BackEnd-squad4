@@ -353,54 +353,82 @@
           {
             "name": "obj",
             "in": "body",
-            "description": "Informa os dados do local",
+            "description": "Informe os dados do local",
             "required": true,
             "schema": {
               "type": "object",
               "properties": {
                 "nome": {
                   "type": "string",
-                  "example": "Nome do Local"
+                  "example": "Local teste"
                 },
                 "descricao": {
                   "type": "string",
-                  "example": "Descrição do Local"
+                  "example": "descricao local teste"
                 },
                 "cep": {
                   "type": "string",
-                  "example": "CEP padrão 00000000"
+                  "example": "88047470"
                 },
                 "logradouro": {
                   "type": "string",
-                  "example": "Logradouro"
-                },
-                "numero": {
-                  "type": "string",
-                  "example": "Numero"
-                },
-                "complemento": {
-                  "type": "string",
-                  "example": "Complemento"
+                  "example": "logradouro teste"
                 },
                 "municipio": {
                   "type": "string",
-                  "example": "Município"
+                  "example": "municipio teste"
                 },
-                "usuarioId": {
+                "numeroCasa": {
                   "type": "string",
-                  "example": "ID do Usuário"
+                  "example": "150"
+                },
+                "complemento": {
+                  "type": "string",
+                  "example": "1"
                 },
                 "uf": {
                   "type": "string",
-                  "example": "UF"
+                  "example": "SC"
                 },
-                "atividade": {
-                  "type": "array",
-                  "example": [
-                    1
-                  ],
-                  "items": {
-                    "type": "number"
+                "atividades": {
+                  "type": "object",
+                  "properties": {
+                    "surf": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "skate": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "ciclismo": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "natação": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "corrida": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "caminhada": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "trilha": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "musculacao": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "futebol": {
+                      "type": "boolean",
+                      "example": false
+                    }
                   }
                 }
               },
@@ -409,12 +437,11 @@
                 "descricao",
                 "cep",
                 "logradouro",
-                "numero",
-                "complemento",
                 "municipio",
-                "usuarioId",
+                "numeroCasa",
+                "complemento",
                 "uf",
-                "atividade"
+                "atividades"
               ]
             }
           }
@@ -438,7 +465,7 @@
         "tags": [
           "Local"
         ],
-        "description": "Lista todos os locais",
+        "description": "Lista todos os locais do usuario logado",
         "parameters": [
           {
             "name": "authorization",
@@ -467,7 +494,7 @@
         "tags": [
           "Local"
         ],
-        "description": "Lista um local",
+        "description": "Lista um local por Id do isuario logado",
         "parameters": [
           {
             "name": "id",
@@ -503,7 +530,7 @@
         "tags": [
           "Local"
         ],
-        "description": "Deleta um local",
+        "description": "Deleta um local pelo id",
         "parameters": [
           {
             "name": "id",
@@ -518,8 +545,8 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
+          "200": {
+            "description": "Local excluído com sucesso"
           },
           "401": {
             "description": "Unauthorized"
@@ -539,7 +566,7 @@
         "tags": [
           "Local"
         ],
-        "description": "Atualiza um local",
+        "description": "Atualiza um local pelo id",
         "parameters": [
           {
             "name": "id",
@@ -574,7 +601,7 @@
         "tags": [
           "Local"
         ],
-        "description": "Pegar a url do mapa do local",
+        "description": "Pegar a url do mapa do local pelo id",
         "parameters": [
           {
             "name": "id",
