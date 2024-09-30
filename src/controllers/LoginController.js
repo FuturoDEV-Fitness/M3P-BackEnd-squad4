@@ -21,7 +21,7 @@ class LoginController {
                 return res.status(401).json({ mensagem: 'Email ou senha inválido' })
             }
 
-            const token = sign({ id: usuario.id }, process.env.JWT_SECRET, { expiresIn: '1d' })
+            const token = sign({ id: usuario.id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION })
 
             return res.json({ usuarioId: usuario.id, 'Authorization': token, 'nome': usuario.nome })
 

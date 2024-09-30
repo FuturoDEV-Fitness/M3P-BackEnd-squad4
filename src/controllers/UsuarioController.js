@@ -157,11 +157,11 @@ class UsuarioController {
         try {
             const usuarios = await Usuario.findAll({
                 attributes: [
-                    ["id", "ID do Usuário"],
-                    ["nome", "Nome do Usuário"],
-                    ["email", "Email"],
-                    ["createdAt", "Criado em"],
-                    "isOnline",
+                    "id",
+                    "nome",
+                    "email",
+                    "createdAt",
+                    "isOnline"
                 ],
                 order: ["id"],
             });

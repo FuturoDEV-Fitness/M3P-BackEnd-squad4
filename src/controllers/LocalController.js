@@ -67,7 +67,6 @@ class LocalController {
                 longitude: lng,
                 linkmap: linkGoogleMaps
             })
-
         
             if (dados.atividades && dados.atividades.length > 0) {
                 const idsAtividades = dados.atividades.map(id => parseInt(id, 10))
