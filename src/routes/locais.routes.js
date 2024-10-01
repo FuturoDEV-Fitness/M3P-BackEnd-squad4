@@ -164,6 +164,36 @@ localRoutes.put('/:id', LocalController.atualizarLocal
     #swagger.path = '/locais/{id}'
     #swagger.method = 'put'
     #swagger.description = 'Atualiza um local pelo id'
+    #swagger.tags = ['Local']
+    #swagger.path = '/locais'
+    #swagger.method = 'post'
+    #swagger.description = 'Cadastra um novo local'
+    #swagger.parameters['obj'] = {
+        in: 'body',
+        description: 'Modifique os campos do local a modificar',
+        required: true,
+        schema: { 
+            $nome: 'Local modificado',
+            $descricao: 'descricao local modificado',
+            $cep: '88047480',
+            $logradouro: 'logradouro modificado',
+            $municipio: 'municipio modificado',
+            $numeroCasa: '150',
+            $complemento: '1',
+            $uf: 'SC',
+            $atividades: { 
+                "surf": false,
+                "skate": true, 
+                "ciclismo": false,
+                "natação": false, 
+                "corrida": false,
+                "caminhada": false,
+                "trilha": false,
+                "musculacao": true,
+                "futebol": false
+            } 
+        }
+    }
     #swagger.responses[200] = {
         description: 'OK'        
     }
