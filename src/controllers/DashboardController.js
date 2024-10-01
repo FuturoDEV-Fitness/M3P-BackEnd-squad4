@@ -1,24 +1,35 @@
 const Local = require('../models/Local')
+const Atividade = require('../models/Atividade')
 
 class DashboardController {
 
     async listarLocais(request, response){
         try {
+
             const locais = await Local.findAll({
                 attributes: [
-                    'id',
-                    'nome',
-                    'cep',
-                    'logradouro',
-                    'municipio',
-                    'uf',
-                    'latitude',
-                    'longitude',
-                    'linkmap',
-                    'usuarioId'
-                ],
+                            'id',
+                            'nome',
+                            'descricao',
+                            'cep',
+                            'logradouro',
+                            'municipio',
+                            'numeroCasa',
+                            'complemento',
+                            'uf',
+                            'latitude',
+                            'longitude',
+                            'linkmap',
+                            'usuarioId'
+                        ],
+                include: {
+                    model: Atividade,
+                    attributes: ['id', 'nomeAtividade', 'descricao'],
+                    through: { attributes: [] }
+                }
             })
-            response.status(200).json(locais)
+            
+            return response.status(200).json(locais)
         } catch (error) {
             console.log(error)
             response
