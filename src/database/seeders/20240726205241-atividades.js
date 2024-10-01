@@ -6,43 +6,55 @@ module.exports = {
    
     await queryInterface.bulkInsert('atividades', [
       {
-        nomeAtividade: 'Surf',
+        nomeAtividade: 'surf',
         descricao: 'Surf na praia',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        nomeAtividade: 'Skate',
+        nomeAtividade: 'skate',
         descricao: 'Skate na praia',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        nomeAtividade: 'Ciclismo',
+        nomeAtividade: 'ciclismo',
         descricao: 'Ciclismo na praia',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        nomeAtividade: 'Natação',
+        nomeAtividade: 'natação',
         descricao: 'Natação na praia',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        nomeAtividade: 'Corrida',
+        nomeAtividade: 'corrida',
         descricao: 'Corrida na praia',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        nomeAtividade: 'Caminhada',
+        nomeAtividade: 'caminhada',
         descricao: 'Caminhada na praia',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        nomeAtividade: 'Futebol',
+        nomeAtividade: 'trilha',
+        descricao: 'Trilha',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        nomeAtividade: 'musculacao',
+        descricao: 'Musculacao',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        nomeAtividade: 'futebol',
         descricao: 'Futebol',
         createdAt: new Date(),
         updatedAt: new Date()
