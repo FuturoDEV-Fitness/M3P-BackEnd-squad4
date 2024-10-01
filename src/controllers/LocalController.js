@@ -213,14 +213,6 @@ class LocalController {
 
             const local = await Local.findOne({ where: { id } })
 
-            // if(local.dataValues.usuarioId !== null || local.dataValues.usuarioId !== undefined) {
-            //     return response
-            //         .status(403)
-            //         .json({
-            //             message: 'Local não pode ser excluído'
-            //         })
-            // }
-
             if (!(local)) {
                 return response
                     .status(404)
@@ -232,9 +224,9 @@ class LocalController {
             await Local.destroy({ where: { id } })
 
             return response
-                .status(200)
+                .status(204)
                 .json({
-                    message: 'Local excluído com sucesso'
+                    message: ''
                 })
 
         } catch (error) {

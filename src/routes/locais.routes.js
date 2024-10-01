@@ -139,8 +139,8 @@ localRoutes.delete('/:id', LocalController.deletarLocal
     #swagger.path = '/locais/{id}'
     #swagger.method = 'delete'
     #swagger.description = 'Deleta um local pelo id'
-    #swagger.responses[200] = {
-        description: 'Local excluído com sucesso'        
+    #swagger.responses[204] = {
+        description: 'No Content'        
     }
     #swagger.responses[401] = {
         description: 'Unauthorized'        
