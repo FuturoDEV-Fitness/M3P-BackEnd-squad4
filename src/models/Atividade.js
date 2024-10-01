@@ -3,7 +3,17 @@ const connection = require("../database/connection");
 
 const Atividade = connection.define('atividades', {
     nomeAtividade: {
-        type: DataTypes.STRING
+        type: DataTypes.ENUM(
+            'surf',         
+            'skate',
+            'ciclismo',          
+            'natação',      
+            'corrida',          
+            'caminhada',
+            'trilha',          
+            'musculacao',
+            'futebol'
+          ),
     },
     descricao: {
         type: DataTypes.STRING
