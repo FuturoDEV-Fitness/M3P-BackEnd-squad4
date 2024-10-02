@@ -36,18 +36,33 @@ localRoutes.post('/', LocalController.cadastrarLocal
         }
     }
     #swagger.responses[201] = { 
-        description: 'Local criado com sucesso'  
+        description: 'OK',
+        schema: {
+                message: 'Local criado com sucesso',
+                nome: 'Nome Local',
+                id: 'idLocal',
+                linkmap: "https://www.google.com/maps?q=",
+                usuarioId: 'number'
+            }
     }
     #swagger.responses[400] = { 
-        description: 'Bad Request'  
-    }
+        description: 'Bad Request',
+        schema: {
+                message: 'O nome do local é obrigatório'
+            }
+    } 
     #swagger.responses[401] = { 
-        description: 'Unauthorized'  
+        description: 'Unauthorized',
+        schema: {
+                message: 'O Token está inválido ou expirado'
+            } 
     }
     #swagger.responses[500] = {
-        description: 'Internal Server Error'
-    }              
-
+        description: 'Internal Server Error',
+        schema: {
+                mensagem: 'Erro ao cadastrar o local'
+            }
+    }
     */
 )
 
@@ -58,16 +73,25 @@ localRoutes.get('/', LocalController.listarLocais
     #swagger.method = 'get'
     #swagger.description = 'Lista todos os locais do usuario logado'
     #swagger.responses[200] = {
-        description: 'OK'        
+        description: 'Retorna lista de locais do usuario Logado'        
     }
     #swagger.responses[401] = {
-        description: 'Unauthorized'
+        description: 'Unauthorized',
+        schema: {
+                message: 'O Token está inválido ou expirado'
+            } 
     }          
     #swagger.responses[404] = {
-        description: 'Not Found'
+        description: 'Not Found',
+        schema: {
+                message: 'Usuario não encontrado'
+            }
     }
     #swagger.responses[500] = {
-        description: 'Internal Server Error'        
+        description: 'Internal Server Error',
+        schema: {
+                mensagem: 'Erro ao buscar os locais'
+            }       
     }
     */
 )
@@ -77,21 +101,33 @@ localRoutes.get('/:id', LocalController.listarPorId
     #swagger.tags = ['Local']
     #swagger.path = '/locais/{id}'
     #swagger.method = 'get'
-    #swagger.description = 'Lista um local por Id do isuario logado'
+    #swagger.description = 'Lista um local especifico solicitado pelo Id'
     #swagger.responses[200] = {
-        description: 'OK'        
+        description: 'Retorna o local especifico solicitado pelo Id'        
     }
     #swagger.responses[400] = {
-        description: 'Bad Request'        
+        description: 'Bad Request',
+        schema: {
+                mensagem: 'O ID do local é obrigatório'
+            }        
     }
     #swagger.responses[401] = {
-        description: 'Unauthorized'
+        description: 'Unauthorized',
+        schema: {
+                message: 'O Token está inválido ou expirado'
+            } 
     }              
     #swagger.responses[404] = {
-        description: 'Not Found'
+        description: 'Not Found',
+        schema: {
+                message: 'Local não encontrado'
+            } 
     }
     #swagger.responses[500] = {
-        description: 'Internal Server Error'        
+        description: 'Internal Server Error'
+        schema: {
+                mensagem: 'Erro ao buscar o local'
+            }           
     }
     */
 )
@@ -101,34 +137,36 @@ localRoutes.get('/:id/maps', LocalController.pegarUrlMapa
     #swagger.tags = ['Local']
     #swagger.path = '/locais/{id}/maps'
     #swagger.method = 'get'
-    #swagger.description = 'Pegar a url do mapa do local pelo id'
+    #swagger.description = 'Retorna a url do mapa do local pelo id'
     #swagger.responses[200] = {
-        description: 'OK'        
+        description: 'OK',
+        schema: {
+            urlLocal: "https://www.google.com/maps?q="
+        }    
     }
     #swagger.responses[400] = {
-        description: 'Bad Request'        
+        description: 'Bad Request',
+        schema: {
+                message: 'Local não encontrado'
+            }         
     }
     #swagger.responses[401] = {
-        description: 'Unauthorized'        
+        description: 'Unauthorized',
+        schema: {
+                message: 'O Token está inválido ou expirado'
+            }     
     }
     #swagger.responses[404] = {
-        description: 'Not Found'        
+        description: 'Not Found',
+        schema: {
+                message: 'Local não possui link de mapas'
+            }  
     }
     #swagger.responses[500] = {
-        description: 'Internal Server Error'        
-    }
-    #swagger.responses[200] = {
-        description: 'OK'        
-    }
-    #swagger.responses[401] = {
-        description: 'Unauthorized'
-    }        
-    }        
-    #swagger.responses[404] = {
-        description: 'Not Found'
-    }
-    #swagger.responses[500] = {
-        description: 'Internal Server Error'        
+        description: 'Internal Server Error',
+        schema: {
+                mensagem: 'Erro ao buscar o local'
+            }         
     }        
     */
 )
@@ -143,17 +181,26 @@ localRoutes.delete('/:id', LocalController.deletarLocal
         description: 'No Content'        
     }
     #swagger.responses[401] = {
-        description: 'Unauthorized'        
+        description: 'Unauthorized',
+        schema: {
+                message: 'O Token está inválido ou expirado'
+            }          
     }
     #swagger.responses[403] = {
-        description: 'Forbidden'        
+        description: 'Forbidden'       
     }
     }        
     #swagger.responses[404] = {
-        description: 'Not Found'        
+        description: 'Not Found',
+        schema: {
+                message: 'Local não encontrado'
+            }           
     }
     #swagger.responses[500] = {
-        description: 'Internal Server Error'        
+        description: 'Internal Server Error',
+        schema: {
+                mensagem: 'Erro ao excluir o local: '
+            }        
     }
     */
 )
@@ -195,16 +242,28 @@ localRoutes.put('/:id', LocalController.atualizarLocal
         }
     }
     #swagger.responses[200] = {
-        description: 'OK'        
+        description: 'OK',
+        schema: {
+            message: "Local atualizado com sucesso"
+        }           
     }
     #swagger.responses[401] = {
-        description: 'Unauthorized'        
+        description: 'Unauthorized',
+        schema: {
+                message: 'O Token está inválido ou expirado'
+            }        
     }
     #swagger.responses[404] = {
-        description: 'Not Found'        
+        description: 'Not Found',
+        schema: {
+                message: 'Local não encontrado'
+            }   
     }
     #swagger.responses[500] = {
-        description: 'Internal Server Error'        
+        description: 'Internal Server Error',
+        schema: {
+                mensagem: 'Erro ao atualizar o local'
+            }   
     }    
     */
 )
