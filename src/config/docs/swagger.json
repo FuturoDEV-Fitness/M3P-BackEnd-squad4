@@ -378,14 +378,6 @@
                   "type": "string",
                   "example": "municipio teste"
                 },
-                "numeroCasa": {
-                  "type": "string",
-                  "example": "150"
-                },
-                "complemento": {
-                  "type": "string",
-                  "example": "1"
-                },
                 "uf": {
                   "type": "string",
                   "example": "SC"
@@ -438,8 +430,6 @@
                 "cep",
                 "logradouro",
                 "municipio",
-                "numeroCasa",
-                "complemento",
                 "uf",
                 "atividades"
               ]
@@ -448,16 +438,80 @@
         ],
         "responses": {
           "201": {
-            "description": "Local criado com sucesso"
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Local criado com sucesso"
+                },
+                "nome": {
+                  "type": "string",
+                  "example": "Nome Local"
+                },
+                "id": {
+                  "type": "string",
+                  "example": "idLocal"
+                },
+                "linkmap": {
+                  "type": "string",
+                  "example": "https://www.google.com/maps?q="
+                },
+                "usuarioId": {
+                  "type": "string",
+                  "example": "number"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "O nome do local é obrigatório"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "O Token está inválido ou expirado"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Erro ao cadastrar o local"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       },
@@ -475,16 +529,52 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Retorna lista de locais do usuario Logado"
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "O Token está inválido ou expirado"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Usuario não encontrado"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Erro ao buscar os locais"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -494,7 +584,7 @@
         "tags": [
           "Local"
         ],
-        "description": "Lista um local por Id do isuario logado",
+        "description": "Lista um local especifico solicitado pelo Id",
         "parameters": [
           {
             "name": "id",
@@ -510,16 +600,52 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Retorna o local especifico solicitado pelo Id"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "O ID do local é obrigatório"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "O Token está inválido ou expirado"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Local não encontrado"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
             "description": "Internal Server Error"
@@ -545,20 +671,56 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Local excluído com sucesso"
+          "204": {
+            "description": "No Content"
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "O Token está inválido ou expirado"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "403": {
             "description": "Forbidden"
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Local não encontrado"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Erro ao excluir o local: "
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       },
@@ -578,20 +740,153 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Modifique os campos do local a modificar",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "Local modificado"
+                },
+                "descricao": {
+                  "type": "string",
+                  "example": "descricao local modificado"
+                },
+                "cep": {
+                  "type": "string",
+                  "example": "88047480"
+                },
+                "logradouro": {
+                  "type": "string",
+                  "example": "logradouro modificado"
+                },
+                "municipio": {
+                  "type": "string",
+                  "example": "municipio modificado"
+                },
+                "uf": {
+                  "type": "string",
+                  "example": "SC"
+                },
+                "atividades": {
+                  "type": "object",
+                  "properties": {
+                    "surf": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "skate": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "ciclismo": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "natação": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "corrida": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "caminhada": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "trilha": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "musculacao": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "futebol": {
+                      "type": "boolean",
+                      "example": false
+                    }
+                  }
+                }
+              },
+              "required": [
+                "nome",
+                "descricao",
+                "cep",
+                "logradouro",
+                "municipio",
+                "uf",
+                "atividades"
+              ]
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Local atualizado com sucesso"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "O Token está inválido ou expirado"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Local não encontrado"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Erro ao atualizar o local"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -601,7 +896,7 @@
         "tags": [
           "Local"
         ],
-        "description": "Pegar a url do mapa do local pelo id",
+        "description": "Retorna a url do mapa do local pelo id",
         "parameters": [
           {
             "name": "id",
@@ -617,19 +912,79 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "urlLocal": {
+                  "type": "string",
+                  "example": "https://www.google.com/maps?q="
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Local não encontrado"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "O Token está inválido ou expirado"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Local não possui link de mapas"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mensagem": {
+                  "type": "string",
+                  "example": "Erro ao buscar o local"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
