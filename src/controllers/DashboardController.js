@@ -2,7 +2,7 @@ const Local = require("../models/Local");
 const Atividade = require("../models/Atividade");
 
 class DashboardController {
-  async listarLocais(request, response) {
+  async listarLocais(request, response) {   // Rota Privado    path: /dashboard   C/ Token
     try {
       const locais = await Local.findAll({
         attributes: [

@@ -17,7 +17,9 @@ routes.use('/login', loginRoutes);
 routes.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 routes.use('/dashboard', dasboardRoutes)
 
+
 // Rotas Privadas
+routes.use('/locais/:id', validaToken, localRoutes);
 routes.use('/locais', validaToken, localRoutes);
 routes.use('/atividades', validaToken, atividadeRoutes);
 
