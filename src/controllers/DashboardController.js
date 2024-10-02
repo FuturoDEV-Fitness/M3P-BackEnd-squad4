@@ -24,7 +24,7 @@ class DashboardController {
                         ],
                 include: {
                     model: Atividade,
-                    attributes: ['id', 'nomeAtividade', 'descricao'],
+                    attributes: ['nomeAtividade'],
                     through: { attributes: [] }
                 }
             })
