@@ -1,28 +1,28 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.changeColumn('atividades', 'nomeAtividade', {
+    await queryInterface.changeColumn("atividades", "nomeAtividade", {
       type: Sequelize.ENUM(
-        'surf',
-        'skate',
-        'ciclismo',
-        'natação',
-        'corrida',
-        'caminhada',
-        'trilha',
-        'musculacao',
-        'futebol'
+        "surf",
+        "skate",
+        "ciclismo",
+        "natacao",
+        "corrida",
+        "caminhada",
+        "trilha",
+        "musculacao",
+        "futebol"
       ),
-      allowNull: false
+      allowNull: false,
     });
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.changeColumn('atividades', 'nomeAtividade', {
+    await queryInterface.changeColumn("atividades", "nomeAtividade", {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
     });
-  }
+  },
 };

@@ -1,69 +1,67 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-   
-    await queryInterface.bulkInsert('atividades', [
+  async up(queryInterface, Sequelize) {
+    await queryInterface.bulkInsert("atividades", [
       {
-        nomeAtividade: 'surf',
-        descricao: 'Surf na praia',
+        nomeAtividade: "surf",
+        descricao: "Surf na praia",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
-        nomeAtividade: 'skate',
-        descricao: 'Skate na praia',
+        nomeAtividade: "skate",
+        descricao: "Skate na praia",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
-        nomeAtividade: 'ciclismo',
-        descricao: 'Ciclismo na praia',
+        nomeAtividade: "ciclismo",
+        descricao: "Ciclismo na praia",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
-        nomeAtividade: 'natação',
-        descricao: 'Natação na praia',
+        nomeAtividade: "natacao",
+        descricao: "Natação na praia",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
-        nomeAtividade: 'corrida',
-        descricao: 'Corrida na praia',
+        nomeAtividade: "corrida",
+        descricao: "Corrida na praia",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
-        nomeAtividade: 'caminhada',
-        descricao: 'Caminhada na praia',
+        nomeAtividade: "caminhada",
+        descricao: "Caminhada na praia",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
-        nomeAtividade: 'trilha',
-        descricao: 'Trilha',
+        nomeAtividade: "trilha",
+        descricao: "Trilha",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
-        nomeAtividade: 'musculacao',
-        descricao: 'Musculacao',
+        nomeAtividade: "musculacao",
+        descricao: "Musculacao",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
-        nomeAtividade: 'futebol',
-        descricao: 'Futebol',
+        nomeAtividade: "futebol",
+        descricao: "Futebol",
         createdAt: new Date(),
-        updatedAt: new Date()
-      }
-    ])
+        updatedAt: new Date(),
+      },
+    ]);
   },
 
-  async down (queryInterface, Sequelize) {
-
-    await queryInterface.bulkDelete('atividades', null, {})
-  }
+  async down(queryInterface, Sequelize) {
+    await queryInterface.bulkDelete("atividades", null, {});
+  },
 };

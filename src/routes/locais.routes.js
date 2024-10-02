@@ -1,10 +1,12 @@
-const  {Router} = require('express')
-const LocalController = require('../controllers/LocalController')
+const { Router } = require("express");
+const LocalController = require("../controllers/LocalController");
 
-const localRoutes = new Router()
+const localRoutes = new Router();
 
-localRoutes.post('/', LocalController.cadastrarLocal
-    /* 
+localRoutes.post(
+  "/",
+  LocalController.cadastrarLocal
+  /* 
     #swagger.tags = ['Local']
     #swagger.path = '/locais'
     #swagger.method = 'post'
@@ -19,8 +21,6 @@ localRoutes.post('/', LocalController.cadastrarLocal
             $cep: '88047470',
             $logradouro: 'logradouro teste',
             $municipio: 'municipio teste',
-            $numeroCasa: '150',
-            $complemento: '1',
             $uf: 'SC',
             $atividades: { 
                 "surf": false,
@@ -64,10 +64,12 @@ localRoutes.post('/', LocalController.cadastrarLocal
             }
     }
     */
-)
+);
 
-localRoutes.get('/', LocalController.listarLocais
-    /* 
+localRoutes.get(
+  "/",
+  LocalController.listarLocais
+  /* 
     #swagger.tags = ['Local']
     #swagger.path = '/locais'
     #swagger.method = 'get'
@@ -94,10 +96,12 @@ localRoutes.get('/', LocalController.listarLocais
             }       
     }
     */
-)
+);
 
-localRoutes.get('/:id', LocalController.listarPorId
-    /* 
+localRoutes.get(
+  "/:id",
+  LocalController.listarPorId
+  /* 
     #swagger.tags = ['Local']
     #swagger.path = '/locais/{id}'
     #swagger.method = 'get'
@@ -130,10 +134,12 @@ localRoutes.get('/:id', LocalController.listarPorId
             }           
     }
     */
-)
+);
 
-localRoutes.get('/:id/maps', LocalController.pegarUrlMapa
-    /*
+localRoutes.get(
+  "/:id/maps",
+  LocalController.pegarUrlMapa
+  /*
     #swagger.tags = ['Local']
     #swagger.path = '/locais/{id}/maps'
     #swagger.method = 'get'
@@ -169,10 +175,12 @@ localRoutes.get('/:id/maps', LocalController.pegarUrlMapa
             }         
     }        
     */
-)
+);
 
-localRoutes.delete('/:id', LocalController.deletarLocal
-    /* 
+localRoutes.delete(
+  "/:id",
+  LocalController.deletarLocal
+  /* 
     #swagger.tags = ['Local']
     #swagger.path = '/locais/{id}'
     #swagger.method = 'delete'
@@ -203,10 +211,12 @@ localRoutes.delete('/:id', LocalController.deletarLocal
             }        
     }
     */
-)
+);
 
-localRoutes.put('/:id', LocalController.atualizarLocal
-    /* 
+localRoutes.put(
+  "/:id",
+  LocalController.atualizarLocal
+  /* 
     #swagger.tags = ['Local']
     #swagger.path = '/locais/{id}'
     #swagger.method = 'put'
@@ -225,8 +235,6 @@ localRoutes.put('/:id', LocalController.atualizarLocal
             $cep: '88047480',
             $logradouro: 'logradouro modificado',
             $municipio: 'municipio modificado',
-            $numeroCasa: '150',
-            $complemento: '1',
             $uf: 'SC',
             $atividades: { 
                 "surf": false,
@@ -266,7 +274,6 @@ localRoutes.put('/:id', LocalController.atualizarLocal
             }   
     }    
     */
-)
+);
 
-
-module.exports = localRoutes
+module.exports = localRoutes;
