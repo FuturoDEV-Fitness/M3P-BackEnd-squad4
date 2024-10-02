@@ -55,27 +55,23 @@ class LocalController {
                 linkmap: linkGoogleMaps
             })
 
-            console.log("atividades",dados.atividades)
-
             if (dados.atividades) {
                 const atividadesTrue = Object.entries(dados.atividades)
                     .filter(([key, value]) => value === true)
                     .map(([key]) => key);
-                console.log("atividades true",atividadesTrue)
 
-                //search the activity id in bd
+                //search the activity id in 'atividades' table
                 const atividadesEncontradas = await Atividade.findAll({
                     where: {
                         nomeAtividade: {
                             [Op.in]: atividadesTrue
                         }
                     },
-                    attributes: ['id'] 
+                    attributes: ['id']
                 });
-                
-                // Extract the IDs from the result
+
+                // Extract the IDs from the 'atividadesEncontradas'
                 const atividadesIds = atividadesEncontradas.map(atividade => atividade.id);
-                console.log("atividades Id",atividadesIds)
 
                 await local.addAtividades(atividadesEncontradas);
             }
@@ -115,6 +111,7 @@ class LocalController {
                 where: { usuarioId: request.usuarioId },
                 include: {
                     model: Atividade,
+                    attributes: ['nomeAtividade'],
                     through: { attributes: [] }
                 }
             })
@@ -146,6 +143,7 @@ class LocalController {
                 where: { id, usuarioId: request.usuarioId },
                 include: {
                     model: Atividade,
+                    attributes: ['nomeAtividade'],
                     through: { attributes: [] }
                 }
             })
@@ -244,7 +242,13 @@ class LocalController {
             const { id } = request.params
             const dados = request.body
 
-            const localAtualizar = await Local.findOne({ where: { id } })
+            const localAtualizar = await Local.findOne({
+                where: { id },
+                include: {
+                    model: Atividade,
+                    through: { attributes: [] }
+                }
+            })
 
             if (!(localAtualizar)) {
                 return response
@@ -254,7 +258,57 @@ class LocalController {
                     })
             }
 
-            const local = await Local.update(dados, { where: { id } })
+            await Local.update(dados, { where: { id } })
+
+            //Removing atividades marked as false from table
+            if (dados.atividades) {
+
+                // Get the list of activities that are marked as false
+                const atividadesFalse = Object.entries(dados.atividades)
+                    .filter(([key, value]) => value === false)
+                    .map(([key]) => key);
+
+                if (atividadesFalse.length > 0) {
+                    // Find the activities currently associated with the local that should be removed
+                    const atividadesARemover = localAtualizar.atividades.filter(atividade =>
+                        atividadesFalse.includes(atividade.nomeAtividade)
+                    );
+
+                    // Remove these activities from the local
+                    await localAtualizar.removeAtividades(atividadesARemover);
+                }
+            }
+
+            //Adding atividades marked as true to the table
+            if (dados.atividades) {
+                // Get the list of activities that are marked as true
+                const atividadesTrue = Object.entries(dados.atividades)
+                    .filter(([key, value]) => value === true)
+                    .map(([key]) => key);
+
+                //search the activity id in 'atividades' table
+                const atividadesEncontradas = await Atividade.findAll({
+                    where: {
+                        nomeAtividade: {
+                            [Op.in]: atividadesTrue
+                        }
+                    },
+                    attributes: ['id']
+                });
+
+                // Update the local with the activities that are marked as true
+                await localAtualizar.setAtividades(atividadesEncontradas);
+            }
+
+            const local = await Local.findOne({
+                where: { id, usuarioId: request.usuarioId },
+                include: {
+                    model: Atividade,
+                    attributes: ['nomeAtividade'],
+                    through: { attributes: [] }
+                }
+            })
+
             return response
                 .status(200)
                 .json({
