@@ -1,93 +1,99 @@
-"use strict";
+'use strict';
+
+const bcrypt = require('bcryptjs');
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert("usuarios", [
+    const salt = await bcrypt.genSalt(10);
+
+    const users = [
       {
-        nome: "Maria",
-        cpf: "22222222222",
-        dataNascimento: new Date("2000-01-01"),
-        email: "maria@example.com",
-        password_hash:
-          "$2a$10$MahaPiRuoWb1uYiBeh6zXOrDv8HnOgBOa9TR3gvJdEhHSPqQXvWWO",
-        confirma_password_hash:
-          "$2a$10$MahaPiRuoWb1uYiBeh6zXOrDv8HnOgBOa9TR3gvJdEhHSPqQXvWWO",
-        cep: "12345678",
-        logradouro: "Rua das Flores",
-        municipio: "São Paulo",
-        uf: "SP",
-        createdAt: new Date("2024-07-22 13:00:00"),
-        updatedAt: new Date("2024-07-22 13:00:00"),
+        nome: 'Usuario teste',
+        cpf: '98765432100',
+        dataNascimento: '1990-01-01',
+        email: 'usuario.teste@example.com',
+        password_hash: await bcrypt.hash('password123', salt),
+        cep: '01001000',
+        logradouro: 'Rua Principal',
+        municipio: 'Sao Paulo',
+        uf: 'SP',
+        complemento: '',
+        numero: 100,
+        isOnline: false,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
-        nome: "Douglas",
-        cpf: "33333333333",
-        dataNascimento: new Date("2000-01-01"),
-        email: "douglas@example.com",
-        password_hash:
-          "$2a$10$MahaPiRuoWb1uYiBeh6zXOrDv8HnOgBOa9TR3gvJdEhHSPqQXvWWO",
-        confirma_password_hash:
-          "$2a$10$MahaPiRuoWb1uYiBeh6zXOrDv8HnOgBOa9TR3gvJdEhHSPqQXvWWO",
-        cep: "12345678",
-        logradouro: "Rua das Flores",
-        municipio: "São Paulo",
-        uf: "SP",
-        createdAt: new Date("2024-07-22 13:00:00"),
-        updatedAt: new Date("2024-07-22 13:00:00"),
+        nome: 'Jane Smith',
+        cpf: '98765432100',
+        dataNascimento: '1992-02-02',
+        email: 'jane.smith@example.com',
+        password_hash: await bcrypt.hash('password456', salt),
+        cep: '01311000',
+        logradouro: 'Avenida Paulista',
+        municipio: 'Sao Paulo',
+        uf: 'SP',
+        complemento: 'Apt 12',
+        numero: 200,
+        isOnline: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
-        nome: "Thalles",
-        cpf: "44444444444",
-        dataNascimento: new Date("2000-01-01"),
-        email: "thalles@example.com",
-        password_hash:
-          "$2a$10$MahaPiRuoWb1uYiBeh6zXOrDv8HnOgBOa9TR3gvJdEhHSPqQXvWWO",
-        confirma_password_hash:
-          "$2a$10$MahaPiRuoWb1uYiBeh6zXOrDv8HnOgBOa9TR3gvJdEhHSPqQXvWWO",
-        cep: "12345678",
-        logradouro: "Rua das Flores",
-        municipio: "São Paulo",
-        uf: "SP",
-        createdAt: new Date("2024-07-22 13:00:00"),
-        updatedAt: new Date("2024-07-22 13:00:00"),
+        nome: 'Alice Johnson',
+        cpf: '11111111111',
+        dataNascimento: '1988-03-03',
+        email: 'alice.johnson@example.com',
+        password_hash: await bcrypt.hash('password789', salt),
+        cep: '22020030',
+        logradouro: 'Rua das Flores',
+        municipio: 'Rio de Janeiro',
+        uf: 'RJ',
+        complemento: '',
+        numero: 150,
+        isOnline: false,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
-        nome: "Alana",
-        cpf: "55555555555",
-        dataNascimento: new Date("2000-01-01"),
-        email: "alana@example.com",
-        password_hash:
-          "$2a$10$MahaPiRuoWb1uYiBeh6zXOrDv8HnOgBOa9TR3gvJdEhHSPqQXvWWO",
-        confirma_password_hash:
-          "$2a$10$MahaPiRuoWb1uYiBeh6zXOrDv8HnOgBOa9TR3gvJdEhHSPqQXvWWO",
-        cep: "12345678",
-        logradouro: "Rua das Flores",
-        municipio: "Rio de Janeiro",
-        uf: "RJ",
-        createdAt: new Date("2024-07-22 13:00:00"),
-        updatedAt: new Date("2024-07-22 13:00:00"),
+        nome: 'Bob Brown',
+        cpf: '22222222222',
+        dataNascimento: '1985-04-04',
+        email: 'bob.brown@example.com',
+        password_hash: await bcrypt.hash('password321', salt),
+        cep: '30120010',
+        logradouro: 'Rua do Carmo',
+        municipio: 'Belo Horizonte',
+        uf: 'MG',
+        complemento: 'Casa',
+        numero: 50,
+        isOnline: false,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
-        nome: "Frank",
-        cpf: "66666666666",
-        dataNascimento: new Date("2000-01-01"),
-        email: "frank@example.com",
-        password_hash:
-          "$2a$10$MahaPiRuoWb1uYiBeh6zXOrDv8HnOgBOa9TR3gvJdEhHSPqQXvWWO",
-        confirma_password_hash:
-          "$2a$10$MahaPiRuoWb1uYiBeh6zXOrDv8HnOgBOa9TR3gvJdEhHSPqQXvWWO",
-        cep: "12345678",
-        logradouro: "Rua das Flores",
-        municipio: "Rio de Janeiro",
-        uf: "RJ",
-        createdAt: new Date("2024-07-22 13:00:00"),
-        updatedAt: new Date("2024-07-22 13:00:00"),
+        nome: 'Eve White',
+        cpf: '33333333333',
+        dataNascimento: '1993-07-07',
+        email: 'eve.white@example.com',
+        password_hash: await bcrypt.hash('password111', salt),
+        cep: '90010000',
+        logradouro: 'Rua Esperança',
+        municipio: 'Porto Alegre',
+        uf: 'RS',
+        complemento: '',
+        numero: 300,
+        isOnline: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
-    ]);
+    ];
+
+    await queryInterface.bulkInsert('usuarios', users, {});
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("usuarios", null, {});
-  },
+    await queryInterface.bulkDelete('usuarios', null, {});
+  }
 };
