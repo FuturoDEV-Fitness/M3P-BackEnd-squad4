@@ -19,9 +19,6 @@ const Usuario = connection.define('usuarios', {
     password_hash: {
         type: DataTypes.STRING
     },
-    confirma_password_hash: {
-        type: DataTypes.STRING
-    },
     cep: {
         type: DataTypes.STRING
     },

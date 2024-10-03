@@ -21,7 +21,6 @@ usuariosRoutes.post(
             $dataNascimento: 'Data de Nascimento padração YYYY-MM-DD',
             $email: 'Email',
             $password: 'Senha',
-            $confirma_password: 'Confirma Senha',
             $cep: 'CEP',
             $logradouro: 'Logradouro',
             $municipio: 'Município',
