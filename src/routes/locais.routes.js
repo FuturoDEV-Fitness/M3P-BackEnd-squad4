@@ -66,16 +66,15 @@ localRoutes.post(
     */
 );
 
-localRoutes.get(
-  "/",
-  LocalController.listarLocais
-  /* 
+
+localRoutes.get("/usuario/:id", LocalController.listarLocaisPorUsuario 
+/* 
     #swagger.tags = ['Local']
-    #swagger.path = '/locais'
+    #swagger.path = '/locais/usuario/{usuarioId}'
     #swagger.method = 'get'
-    #swagger.description = 'Lista todos os locais do usuario logado'
+    #swagger.description = 'Lista todos os locais do usuario logado)'
     #swagger.responses[200] = {
-        description: 'Retorna lista de locais do usuario Logado'        
+        description: 'Retorna lista de locais pelo id do usuario'        
     }
     #swagger.responses[401] = {
         description: 'Unauthorized',
@@ -83,57 +82,19 @@ localRoutes.get(
                 message: 'O Token está inválido ou expirado'
             } 
     }          
-    #swagger.responses[404] = {
+    #swagger.responses[400] = {
         description: 'Not Found',
         schema: {
-                message: 'Usuario não encontrado'
+                message: 'O ID do usuario é obrigatório'
             }
-    }
+    }   
     #swagger.responses[500] = {
         description: 'Internal Server Error',
         schema: {
                 mensagem: 'Erro ao buscar os locais'
             }       
     }
-    */
-);
-
-localRoutes.get(
-  "/:id",
-  LocalController.listarPorId
-  /* 
-    #swagger.tags = ['Local']
-    #swagger.path = '/locais/{id}'
-    #swagger.method = 'get'
-    #swagger.description = 'Lista um local especifico solicitado pelo Id'
-    #swagger.responses[200] = {
-        description: 'Retorna o local especifico solicitado pelo Id'        
-    }
-    #swagger.responses[400] = {
-        description: 'Bad Request',
-        schema: {
-                mensagem: 'O ID do local é obrigatório'
-            }        
-    }
-    #swagger.responses[401] = {
-        description: 'Unauthorized',
-        schema: {
-                message: 'O Token está inválido ou expirado'
-            } 
-    }              
-    #swagger.responses[404] = {
-        description: 'Not Found',
-        schema: {
-                message: 'Local não encontrado'
-            } 
-    }
-    #swagger.responses[500] = {
-        description: 'Internal Server Error'
-        schema: {
-                mensagem: 'Erro ao buscar o local'
-            }           
-    }
-    */
+    */  
 );
 
 localRoutes.get(
@@ -143,7 +104,7 @@ localRoutes.get(
     #swagger.tags = ['Local']
     #swagger.path = '/locais/{id}/maps'
     #swagger.method = 'get'
-    #swagger.description = 'Retorna a url do mapa do local pelo id'
+    #swagger.description = 'Retorna a url do mapa do local pelo id do local'
     #swagger.responses[200] = {
         description: 'OK',
         schema: {
@@ -184,7 +145,7 @@ localRoutes.delete(
     #swagger.tags = ['Local']
     #swagger.path = '/locais/{id}'
     #swagger.method = 'delete'
-    #swagger.description = 'Deleta um local pelo id'
+    #swagger.description = 'Deleta um local pelo id do local'
     #swagger.responses[204] = {
         description: 'No Content'        
     }
@@ -220,7 +181,7 @@ localRoutes.put(
     #swagger.tags = ['Local']
     #swagger.path = '/locais/{id}'
     #swagger.method = 'put'
-    #swagger.description = 'Atualiza um local pelo id'
+    #swagger.description = 'Atualiza um local pelo id do local'
     #swagger.tags = ['Local']
     #swagger.path = '/locais'
     #swagger.method = 'post'

@@ -95,20 +95,18 @@ class LocalController {
         }
     }
 
-    async listarLocais(request, response) { // Rota privada(com token)  path: /locais
+    async listarLocaisPorUsuario(request, response) {  // Rota privada(com token)  path: /locais/usuario/:id
         try {
-            const usuario = await Usuario.findAll()
+            const id = request.usuarioId
 
-            if (!(usuario)) {
+            if (!(id)) {
                 return response
-                    .status(404)
-                    .json({
-                        message: 'Usuario não encontrado'
-                    })
+                    .status(400)
+                    .json({ mensagem: 'O ID do usuario é obrigatório' })
             }
 
             const locais = await Local.findAll({
-                where: { usuarioId: request.usuarioId },
+                where: { usuarioId: id },
                 include: {
                     model: Atividade,
                     attributes: ['nomeAtividade'],
@@ -117,54 +115,13 @@ class LocalController {
             })
             return response
                 .status(200)
-                .json(locais)
+                .json(locais)   
 
         } catch (error) {
             response
                 .status(500)
                 .json({
                     mensagem: 'Erro ao buscar os locais: ',
-                    error
-                })
-        }
-    }
-
-    async listarPorId(request, response) {   //Rota Privada    path: /locais/:id   C/ Token
-        try {
-            const { id } = request.params
-
-            if (!(id)) {
-                return response
-                    .status(400)
-                    .json({ mensagem: 'O ID do local é obrigatório' })
-            }
-
-            const local = await Local.findAll({
-                where: { id, usuarioId: request.usuarioId },
-                include: {
-                    model: Atividade,
-                    attributes: ['nomeAtividade'],
-                    through: { attributes: [] }
-                }
-            })
-
-            if (!(local)) {
-                return response
-                    .status(404)
-                    .json({
-                        message: 'Local não encontrado'
-                    })
-            }
-
-            return response
-                .status(200)
-                .json(local)
-
-        } catch (error) {
-            response
-                .status(500)
-                .json({
-                    mensagem: 'Erro ao buscar o local: ',
                     error
                 })
         }
