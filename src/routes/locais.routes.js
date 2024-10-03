@@ -66,12 +66,11 @@ localRoutes.post(
     */
 );
 
-localRoutes.get(
-  "/",
-  LocalController.listarLocais
-  /* 
+
+localRoutes.get("/usuario/:id", LocalController.listarLocaisPorUsuario 
+/* 
     #swagger.tags = ['Local']
-    #swagger.path = '/locais'
+    #swagger.path = '/locais/usuario/{id}'
     #swagger.method = 'get'
     #swagger.description = 'Lista todos os locais do usuario logado'
     #swagger.responses[200] = {
@@ -88,52 +87,14 @@ localRoutes.get(
         schema: {
                 message: 'Usuario não encontrado'
             }
-    }
+    }   
     #swagger.responses[500] = {
         description: 'Internal Server Error',
         schema: {
                 mensagem: 'Erro ao buscar os locais'
             }       
     }
-    */
-);
-
-localRoutes.get(
-  "/:id",
-  LocalController.listarPorId
-  /* 
-    #swagger.tags = ['Local']
-    #swagger.path = '/locais/{id}'
-    #swagger.method = 'get'
-    #swagger.description = 'Lista um local especifico solicitado pelo Id'
-    #swagger.responses[200] = {
-        description: 'Retorna o local especifico solicitado pelo Id'        
-    }
-    #swagger.responses[400] = {
-        description: 'Bad Request',
-        schema: {
-                mensagem: 'O ID do local é obrigatório'
-            }        
-    }
-    #swagger.responses[401] = {
-        description: 'Unauthorized',
-        schema: {
-                message: 'O Token está inválido ou expirado'
-            } 
-    }              
-    #swagger.responses[404] = {
-        description: 'Not Found',
-        schema: {
-                message: 'Local não encontrado'
-            } 
-    }
-    #swagger.responses[500] = {
-        description: 'Internal Server Error'
-        schema: {
-                mensagem: 'Erro ao buscar o local'
-            }           
-    }
-    */
+    */  
 );
 
 localRoutes.get(
