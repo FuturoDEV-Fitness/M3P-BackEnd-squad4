@@ -95,9 +95,9 @@ class LocalController {
         }
     }
 
-    async listarLocais(request, response) {
+    async listarLocais(request, response) { // Rota Pública    path: /locais Sem TOKEN
         try {
-            const usuario = await Usuario.findOne({ where: { id: request.usuarioId } })
+            const usuario = await Usuario.findAll()
 
             if (!(usuario)) {
                 return response
@@ -129,7 +129,7 @@ class LocalController {
         }
     }
 
-    async listarPorId(request, response) {
+    async listarPorId(request, response) {   //Rota Privada    path: /locais/:id   C/ Token
         try {
             const { id } = request.params
 
@@ -139,7 +139,7 @@ class LocalController {
                     .json({ mensagem: 'O ID do local é obrigatório' })
             }
 
-            const local = await Local.findOne({
+            const local = await Local.findAll({
                 where: { id, usuarioId: request.usuarioId },
                 include: {
                     model: Atividade,
