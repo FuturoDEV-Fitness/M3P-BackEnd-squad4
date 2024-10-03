@@ -19,12 +19,6 @@ const Local = connection.define('locais', {
     municipio: {
         type: DataTypes.STRING
     },
-    numeroCasa: {
-        type: DataTypes.STRING
-    },
-    complemento: {
-        type: DataTypes.STRING
-    },
     uf: {
         type: DataTypes.STRING
     },
