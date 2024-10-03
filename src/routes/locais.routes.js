@@ -70,11 +70,11 @@ localRoutes.post(
 localRoutes.get("/usuario/:id", LocalController.listarLocaisPorUsuario 
 /* 
     #swagger.tags = ['Local']
-    #swagger.path = '/locais/usuario/{id}'
+    #swagger.path = '/locais/usuario/{usuarioId}'
     #swagger.method = 'get'
-    #swagger.description = 'Lista todos os locais do usuario logado'
+    #swagger.description = 'Lista todos os locais do usuario logado)'
     #swagger.responses[200] = {
-        description: 'Retorna lista de locais do usuario Logado'        
+        description: 'Retorna lista de locais pelo id do usuario'        
     }
     #swagger.responses[401] = {
         description: 'Unauthorized',
@@ -82,10 +82,10 @@ localRoutes.get("/usuario/:id", LocalController.listarLocaisPorUsuario
                 message: 'O Token está inválido ou expirado'
             } 
     }          
-    #swagger.responses[404] = {
+    #swagger.responses[400] = {
         description: 'Not Found',
         schema: {
-                message: 'Usuario não encontrado'
+                message: 'O ID do usuario é obrigatório'
             }
     }   
     #swagger.responses[500] = {
@@ -104,7 +104,7 @@ localRoutes.get(
     #swagger.tags = ['Local']
     #swagger.path = '/locais/{id}/maps'
     #swagger.method = 'get'
-    #swagger.description = 'Retorna a url do mapa do local pelo id'
+    #swagger.description = 'Retorna a url do mapa do local pelo id do local'
     #swagger.responses[200] = {
         description: 'OK',
         schema: {
@@ -145,7 +145,7 @@ localRoutes.delete(
     #swagger.tags = ['Local']
     #swagger.path = '/locais/{id}'
     #swagger.method = 'delete'
-    #swagger.description = 'Deleta um local pelo id'
+    #swagger.description = 'Deleta um local pelo id do local'
     #swagger.responses[204] = {
         description: 'No Content'        
     }
@@ -181,7 +181,7 @@ localRoutes.put(
     #swagger.tags = ['Local']
     #swagger.path = '/locais/{id}'
     #swagger.method = 'put'
-    #swagger.description = 'Atualiza um local pelo id'
+    #swagger.description = 'Atualiza um local pelo id do local'
     #swagger.tags = ['Local']
     #swagger.path = '/locais'
     #swagger.method = 'post'
