@@ -397,7 +397,7 @@
                       "type": "boolean",
                       "example": false
                     },
-                    "natação": {
+                    "natacao": {
                       "type": "boolean",
                       "example": true
                     },
@@ -788,7 +788,7 @@
                       "type": "boolean",
                       "example": false
                     },
-                    "natação": {
+                    "natacao": {
                       "type": "boolean",
                       "example": false
                     },

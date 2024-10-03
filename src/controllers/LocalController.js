@@ -95,7 +95,7 @@ class LocalController {
         }
     }
 
-    async listarLocais(request, response) { // Rota Pública    path: /locais Sem TOKEN
+    async listarLocais(request, response) { // Rota privada(com token)  path: /locais
         try {
             const usuario = await Usuario.findAll()
 
