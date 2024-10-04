@@ -514,77 +514,11 @@
             }
           }
         }
-      },
-      "get": {
-        "tags": [
-          "Local"
-        ],
-        "description": "Lista todos os locais do usuario logado",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Retorna lista de locais do usuario Logado"
-          },
-          "401": {
-            "description": "Unauthorized",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "O Token está inválido ou expirado"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "Usuario não encontrado"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "mensagem": {
-                  "type": "string",
-                  "example": "Erro ao buscar os locais"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
       }
     },
-    "/locais/{id}": {
+    "/locais/usuario/{id}": {
       "get": {
-        "tags": [
-          "Local"
-        ],
-        "description": "Lista um local especifico solicitado pelo Id",
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -600,14 +534,49 @@
         ],
         "responses": {
           "200": {
-            "description": "Retorna o local especifico solicitado pelo Id"
+            "description": "OK"
           },
           "400": {
-            "description": "Bad Request",
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/locais/{id}": {
+      "get": {
+        "tags": [
+          "Local"
+        ],
+        "description": "Lista o local por id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retorna lista de locais pelo id"
+          },
+          "400": {
+            "description": "Not Found",
             "schema": {
               "type": "object",
               "properties": {
-                "mensagem": {
+                "message": {
                   "type": "string",
                   "example": "O ID do local é obrigatório"
                 }
@@ -633,22 +602,22 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error",
             "schema": {
               "type": "object",
               "properties": {
-                "message": {
+                "mensagem": {
                   "type": "string",
-                  "example": "Local não encontrado"
+                  "example": "Erro ao buscar local"
                 }
               },
               "xml": {
                 "name": "main"
               }
             }
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       },
@@ -656,7 +625,7 @@
         "tags": [
           "Local"
         ],
-        "description": "Deleta um local pelo id",
+        "description": "Deleta um local pelo id do local",
         "parameters": [
           {
             "name": "id",
@@ -728,7 +697,7 @@
         "tags": [
           "Local"
         ],
-        "description": "Atualiza um local pelo id",
+        "description": "Atualiza um local pelo id do local",
         "parameters": [
           {
             "name": "id",
@@ -896,7 +865,7 @@
         "tags": [
           "Local"
         ],
-        "description": "Retorna a url do mapa do local pelo id",
+        "description": "Retorna a url do mapa do local pelo id do local",
         "parameters": [
           {
             "name": "id",
