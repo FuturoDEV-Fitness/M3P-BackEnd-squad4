@@ -66,9 +66,10 @@ localRoutes.post(
     */
 );
 
-
-localRoutes.get("/usuario/:id", LocalController.listarLocaisPorUsuario 
-/* 
+localRoutes.get(
+  "/usuario/:id",
+  LocalController.listarLocaisPorUsuario
+  /* 
     #swagger.tags = ['Local']
     #swagger.path = '/locais/usuario/{usuarioId}'
     #swagger.method = 'get'
@@ -94,7 +95,39 @@ localRoutes.get("/usuario/:id", LocalController.listarLocaisPorUsuario
                 mensagem: 'Erro ao buscar os locais'
             }       
     }
-    */  
+    */
+);
+
+localRoutes.get(
+  "/:id",
+  LocalController.listarPorId
+  /* 
+    #swagger.tags = ['Local']
+    #swagger.path = '/locais/{id}'
+    #swagger.method = 'get'
+    #swagger.description = 'Lista o local por id'
+    #swagger.responses[200] = {
+        description: 'Retorna lista de locais pelo id'        
+    }
+    #swagger.responses[401] = {
+        description: 'Unauthorized',
+        schema: {
+                message: 'O Token está inválido ou expirado'
+            } 
+    }          
+    #swagger.responses[400] = {
+        description: 'Not Found',
+        schema: {
+                message: 'O ID do local é obrigatório'
+            }
+    }   
+    #swagger.responses[500] = {
+        description: 'Internal Server Error',
+        schema: {
+                mensagem: 'Erro ao buscar  local'
+            }       
+    }
+    */
 );
 
 localRoutes.get(
