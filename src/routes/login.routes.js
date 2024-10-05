@@ -9,27 +9,47 @@ loginRoutes.post('/', loginController.login
     #swagger.tags = ['Login']
     #swagger.path = '/login'
     #swagger.method = 'post'
-    #swagger.description = 'Efetua o login'
+    #swagger.description = 'Rota para efetuar o login'
     #swagger.parameters['obj'] = {
         in: 'body',
-        description: 'Informa o email e a senha',
+        description: 'Informe seu email e a senha ou use os indicados embaixo',
         required: true,
         schema: { 
-            $email: 'Email',
-            $password: 'Senha',
+            $email: 'usuario.teste@example.com',
+            $password: 'password123',
         }
     }
     #swagger.responses[200] = {
-        description: 'Login efetuado com sucesso'
+        description: 'Login efetuado com sucesso',
+        schema: {
+            "usuarioId": 1,
+            "Authorization": "string",
+            "nome": "Usuario teste"
+        }
     }
     #swagger.responses[400] = {
-        description: 'Bad Request'
+        description: 'Bad Request',
+        schema: {
+                mensagem: 'Email e senha obrigatórios'
+            } 
+    }
+    #swagger.responses[401] = {
+        description: 'Bad Request',
+        schema: {
+                mensagem: 'Email ou senha inválido'
+            } 
     }
     #swagger.responses[404] = {
-        description: 'Not Found'            
+        description: 'Not Found',
+        schema: {
+                mensagem: 'Conta não encontrada'
+            }          
     }   
     #swagger.responses[500] = {
-        description: 'Internal Server Error'
+        description: 'Internal Server Error',
+        schema: {
+                mensagem: 'Erro ao efetuar o login'
+            }   
     }                     
     */
 )

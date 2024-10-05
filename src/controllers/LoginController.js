@@ -23,7 +23,7 @@ class LoginController {
 
             const token = sign({ id: usuario.id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION })
 
-            return res.json({ usuarioId: usuario.id, 'Authorization': token, 'nome': usuario.nome })
+            return res.status(200).json({ usuarioId: usuario.id, 'Authorization': token, 'nome': usuario.nome })
 
         } catch (error) {
             return res.status(500).json({ error: 'Erro ao efetuar o login' })
