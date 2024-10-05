@@ -9,7 +9,7 @@ loginRoutes.post('/', loginController.login
     #swagger.tags = ['Login']
     #swagger.path = '/login'
     #swagger.method = 'post'
-    #swagger.description = 'Rota para fetuar o login'
+    #swagger.description = 'Rota para efetuar o login'
     #swagger.parameters['obj'] = {
         in: 'body',
         description: 'Informe seu email e a senha ou use os indicados embaixo',
