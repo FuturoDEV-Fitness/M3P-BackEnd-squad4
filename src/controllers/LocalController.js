@@ -1,278 +1,285 @@
-const Local = require('../models/Local')
-const Usuario = require('../models/Usuario')
-const Atividade = require('../models/Atividade')
-const { getLatitudeLongitude, getLinkGoogleMaps } = require('../services/mapaService')
-const LocalAtividade = require('../models/LocalAtividade')
+const Local = require("../models/Local");
+const Usuario = require("../models/Usuario");
+const Atividade = require("../models/Atividade");
+const {
+  getLatitudeLongitude,
+  getLinkGoogleMaps,
+} = require("../services/mapaService");
+const LocalAtividade = require("../models/LocalAtividade");
 const { Op } = require("sequelize");
 
 class LocalController {
-    async cadastrarLocal(request, response) {
-        try {
-            const dados = request.body
+  async cadastrarLocal(request, response) {
+    try {
+      const dados = request.body;
 
-            const usuario = await Usuario.findOne({ where: { email: dados.usuario } })
+      if (!dados.nome) {
+        return response
+          .status(400)
+          .json({ mensagem: "O nome do local é obrigatório" });
+      }
 
-            if(!(dados.nome)){
-                return response 
-                    .status(400)
-                    .json({ mensagem: 'O nome do local é obrigatório' })
-            }
+      if (!dados.cep) {
+        return response.status(400).json({ mensagem: "O CEP é obrigatório" });
+      }
 
-            if(!(dados.cep)){
-                return response
-                    .status(400)
-                    .json({ mensagem: 'O CEP é obrigatório' })
-            }
+      if (!dados.logradouro) {
+        return response
+          .status(400)
+          .json({ mensagem: "O logradouro é obrigatório" });
+      }
 
-            if(!(dados.logradouro)){
-                return response
-                    .status(400)
-                    .json({ mensagem: 'O logradouro é obrigatório' })
-            }
+      if (!dados.municipio) {
+        return response
+          .status(400)
+          .json({ mensagem: "O municipio é obrigatório" });
+      }
 
-            if(!(dados.municipio)){
-                return response
-                    .status(400)
-                    .json({ mensagem: 'O municipio é obrigatório' })
-            }
+      if (!dados.uf) {
+        return response.status(400).json({ mensagem: "O UF é obrigatório" });
+      }
 
-            if(!(dados.uf)){
-                return response
-                    .status(400)
-                    .json({ mensagem: 'O UF é obrigatório' })
-            }
+      //validar latitude e longitude
 
-            if(!(usuario.id)){
-                return response
-                    .status(400)
-                    .json({ mensagem: 'O ID do usuario é obrigatório' })
-            }
+      const { lat, lng } = await getLatitudeLongitude(dados.cep);
 
-           const usuarioExiste = await Usuario.findOne({ where: { id: usuario.id } })
+      const linkGoogleMaps = await getLinkGoogleMaps({ lat, lng });
 
-            if (!(usuarioExiste)) {
-                return response
-                    .status(400)
-                    .json({ mensagem: 'O ID do usuario não existe' })
-            }
+      const local = await Local.create({
+        ...dados,
+        usuarioId: parseInt(request.usuarioId),
+        // usuarioId: parseInt(usuario.id),
+        latitude: lat,
+        longitude: lng,
+        linkmap: linkGoogleMaps,
+      });
 
-            const { lat, lng } = await getLatitudeLongitude(dados.cep)
+      if (dados.atividades) {
+        const atividadesTrue = Object.entries(dados.atividades)
+          .filter(([key, value]) => value === true)
+          .map(([key]) => key);
 
-            const linkGoogleMaps = await getLinkGoogleMaps({ lat, lng })
+        //search the activity id in 'atividades' table
+        const atividadesEncontradas = await Atividade.findAll({
+          where: {
+            nomeAtividade: {
+              [Op.in]: atividadesTrue,
+            },
+          },
+          attributes: ["id"],
+        });
 
-            const local = await Local.create({
-                ...dados,
-                usuarioId: parseInt(usuario.id),
-                latitude: lat,
-                longitude: lng,
-                linkmap: linkGoogleMaps
-            })
+        // Extract the IDs from the 'atividadesEncontradas'
+        const atividadesIds = atividadesEncontradas.map(
+          (atividade) => atividade.id
+        );
 
-        
-            if (dados.atividades && dados.atividades.length > 0) {
-                const idsAtividades = dados.atividades.map(id => parseInt(id, 10))
-                const atividadesEncontradas = await Atividade.findAll({ where: {id: {[Op.in]: [...idsAtividades]}} })
-          
-                await local.addAtividades(atividadesEncontradas);
-            }
+        await local.addAtividades(atividadesEncontradas);
+      }
 
-            return response.status(201).json({
-                message: 'Local criado com sucesso',
-                nome: local.nome,
-                id: local.id,
-                linkmap: local.linkmap,
-                usuarioId: local.usuarioId
-            })
-
-        } catch (error) {
-            console.log(error)
-            response
-            .status(500)
-            .json({
-                mensagem: 'Erro ao cadastrar o local: ',
-                error
-            })
-        }
+      return response.status(201).json({
+        message: "Local criado com sucesso",
+        nome: local.nome,
+        id: local.id,
+        linkmap: local.linkmap,
+        usuarioId: local.usuarioId,
+      });
+    } catch (error) {
+      console.log(error);
+      response.status(500).json({
+        mensagem: "Erro ao cadastrar o local: ",
+        error,
+      });
     }
-
-    async listarLocais(request, response) {
-        try {
-            const usuario = await Usuario.findOne({ where: { id: request.usuarioId } })
-
-            if (!(usuario)) {
-                return response
-                    .status(404)
-                    .json({
-                        message: 'Usuario não encontrado'
-                    })
-            }
-
-            const locais = await Local.findAll({ where: { usuarioId: request.usuarioId },             
-                include: {
-                    model: Atividade,
-                    through: { attributes: [] } 
-                  }
-            })
-            return response
-                .status(200)
-                .json(locais)
-
-        } catch (error) {
-            response
-            .status(500)
-            .json({
-                mensagem: 'Erro ao buscar os locais: ',
-                error
-            })
-        }
+  }
+  async listarPorId(request, response) {
+    try {
+      const { id } = request.params;
+      if (!id) {
+        return response
+          .status(400)
+          .json({ mensagem: "O ID do local é obrigatório" });
+      }
+      const local = await Local.findOne({
+        where: { id, usuarioId: request.usuarioId },
+        include: {
+          model: Atividade,
+          attributes: ["nomeAtividade"],
+          through: { attributes: [] },
+        },
+      });
+      if (!local) {
+        return response.status(404).json({
+          message: "Local não encontrado",
+        });
+      }
+      return response.status(200).json(local);
+    } catch (error) {
+      response.status(500).json({
+        mensagem: "Erro ao buscar o local: ",
+        error,
+      });
     }
+  }
+  async listarLocaisPorUsuario(request, response) {
+    // Rota privada(com token)  path: /locais/usuario/:id
+    try {
+      const id = request.usuarioId;
 
-    async listarPorId(request, response) {
-        try {
-            const { id } = request.params
-            
-            if (!(id)) {
-                return response
-                    .status(400)
-                    .json({ mensagem: 'O ID do local é obrigatório' })
-            }
+      if (!id) {
+        return response
+          .status(400)
+          .json({ mensagem: "O ID do usuario é obrigatório" });
+      }
 
-            const local = await Local.findOne({ where: { id, usuarioId: request.usuarioId }, 
-                 include: {
-                    model: Atividade,
-                    through: { attributes: [] } 
-                  }
-            })
-
-            if (!(local)) {
-                return response
-                    .status(404)
-                    .json({
-                        message: 'Local não encontrado'
-                    })
-            }
-
-            return response
-                .status(200)
-                .json(local)    
-
-        } catch (error) {
-            response
-            .status(500)
-            .json({
-                mensagem: 'Erro ao buscar o local: ',
-                error
-            })
-        }
+      const locais = await Local.findAll({
+        where: { usuarioId: id },
+        include: {
+          model: Atividade,
+          attributes: ["nomeAtividade"],
+          through: { attributes: [] },
+        },
+      });
+      return response.status(200).json(locais);
+    } catch (error) {
+      response.status(500).json({
+        mensagem: "Erro ao buscar os locais: ",
+        error,
+      });
     }
+  }
 
-    async pegarUrlMapa(request, response) {
-        try {
-            const { id } = request.params
-            const local = await Local.findOne({ where: { id } })
+  async pegarUrlMapa(request, response) {
+    try {
+      const { id } = request.params;
+      const local = await Local.findOne({ where: { id } });
 
-            if (!(local)) {
-                return response
-                    .status(404)
-                    .json({
-                        message: 'Local não encontrado'
-                    })
-            } 
-            
-            if(local.linkmap === null || local.linkmap === undefined) {
-                return response
-                    .status(404)
-                    .json({
-                        message: 'Local não possui link de mapas'
-                    })
-            }   
-            
-            return response
-                .status(200)
-                .json({urlLocal: local.linkmap })
+      if (!local) {
+        return response.status(404).json({
+          message: "Local não encontrado",
+        });
+      }
 
-        } catch (error) {
-            response
-            .status(500)
-            .json({
-                mensagem: 'Erro ao buscar o local: ',
-                error
-            })
-        }
+      if (local.linkmap === null || local.linkmap === undefined) {
+        return response.status(404).json({
+          message: "Local não possui link de mapas",
+        });
+      }
+
+      return response.status(200).json({ urlLocal: local.linkmap });
+    } catch (error) {
+      response.status(500).json({
+        mensagem: "Erro ao buscar o local: ",
+        error,
+      });
     }
+  }
 
-    async deletarLocal(request, response) {
-        try {
-            const { id } = request.params
-            
-            const local = await Local.findOne({ where: { id } })
+  async deletarLocal(request, response) {
+    try {
+      const { id } = request.params;
 
-            if(local.dataValues.usuarioId !== null || local.dataValues.usuarioId !== undefined) {
-                return response
-                    .status(403)
-                    .json({
-                        message: 'Local não pode ser excluído'
-                    })
-            }
-            
-            if (!(local)) {
-                return response
-                    .status(404)
-                    .json({
-                        message: 'Local não encontrado'
-                    })
-            }
+      const local = await Local.findOne({ where: { id } });
 
-            await Local.destroy({ where: { id } })
+      if (!local) {
+        return response.status(404).json({
+          message: "Local não encontrado",
+        });
+      }
 
-            return response
-                .status(204)
-                .json({
-                    message: 'Local excluído com sucesso'
-                })
+      await Local.destroy({ where: { id } });
 
-        } catch (error) {
-            response
-            .status(500)
-            .json({
-                mensagem: 'Erro ao excluir o local: ',
-                error
-            })
-        }
+      return response.status(204).json({
+        message: "",
+      });
+    } catch (error) {
+      response.status(500).json({
+        mensagem: "Erro ao excluir o local: ",
+        error,
+      });
     }
+  }
 
-    async atualizarLocal(request, response) {
-        try {
-            const { id } = request.params
-            const dados = request.body
+  async atualizarLocal(request, response) {
+    try {
+      const { id } = request.params;
+      const dados = request.body;
 
-            const localAtualizar = await Local.findOne({ where: { id } })
+      const localAtualizar = await Local.findOne({
+        where: { id },
+        include: {
+          model: Atividade,
+          through: { attributes: [] },
+        },
+      });
 
-            if (!(localAtualizar)) {
-                return response
-                    .status(404)
-                    .json({
-                        message: 'Local não encontrado'
-                    })
-            }
+      if (!localAtualizar) {
+        return response.status(404).json({
+          message: "Local não encontrado",
+        });
+      }
 
-            const local = await Local.update(dados, { where: { id } })
-            return response
-                .status(200)
-                .json({
-                    message: 'Local atualizado com sucesso',
-                    local
-                })
-                
-        } catch (error) {
-            response
-            .status(500)
-            .json({
-                mensagem: 'Erro ao atualizar o local: ',
-                error
-            })
+      await Local.update(dados, { where: { id } });
+
+      //Removing atividades marked as false from table
+      if (dados.atividades) {
+        // Get the list of activities that are marked as false
+        const atividadesFalse = Object.entries(dados.atividades)
+          .filter(([key, value]) => value === false)
+          .map(([key]) => key);
+
+        if (atividadesFalse.length > 0) {
+          // Find the activities currently associated with the local that should be removed
+          const atividadesARemover = localAtualizar.atividades.filter(
+            (atividade) => atividadesFalse.includes(atividade.nomeAtividade)
+          );
+
+          // Remove these activities from the local
+          await localAtualizar.removeAtividades(atividadesARemover);
         }
+      }
+
+      //Adding atividades marked as true to the table
+      if (dados.atividades) {
+        // Get the list of activities that are marked as true
+        const atividadesTrue = Object.entries(dados.atividades)
+          .filter(([key, value]) => value === true)
+          .map(([key]) => key);
+
+        //search the activity id in 'atividades' table
+        const atividadesEncontradas = await Atividade.findAll({
+          where: {
+            nomeAtividade: {
+              [Op.in]: atividadesTrue,
+            },
+          },
+          attributes: ["id"],
+        });
+
+        // Update the local with the activities that are marked as true
+        await localAtualizar.setAtividades(atividadesEncontradas);
+      }
+
+      const local = await Local.findOne({
+        where: { id, usuarioId: request.usuarioId },
+        include: {
+          model: Atividade,
+          attributes: ["nomeAtividade"],
+          through: { attributes: [] },
+        },
+      });
+
+      return response.status(200).json({
+        message: "Local atualizado com sucesso",
+        local,
+      });
+    } catch (error) {
+      response.status(500).json({
+        mensagem: "Erro ao atualizar o local: ",
+        error,
+      });
     }
+  }
 }
 
-module.exports = new LocalController()
+module.exports = new LocalController();

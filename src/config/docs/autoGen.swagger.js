@@ -5,7 +5,7 @@ const outputFile = 'src/config/docs/swagger.json';
 const endpointsFiles = ['src/routes/routes.js'];
 
 const hostname = process.env.APP_HOST || 'localhost';
-const port = process.env.APP_PORT || 3000;
+const port = process.env.APP_PORT_LOCAL || 3000;
 
 const doc = {
     info: {
@@ -13,8 +13,8 @@ const doc = {
         description: "API para gerenciamento de locais e atividades",
         version: "1.0.0",
     },
-    host: `${hostname}:${port}`,
-    schemes: ["http"],
+    host: `${hostname}`,
+    schemes: ["https", "http"],
     security: [{ apiKeyAuth: [] }],
     securityDefinitions: {
         apiKeyAuth: {

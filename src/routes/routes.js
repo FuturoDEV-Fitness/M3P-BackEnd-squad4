@@ -15,7 +15,8 @@ const validaToken = require('../middlewares/validaToken');
 routes.use('/usuarios', usuariosRoutes);
 routes.use('/login', loginRoutes);
 routes.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-routes.use('/dashboard/', dasboardRoutes)
+routes.use('/dashboard', dasboardRoutes)
+
 
 // Rotas Privadas
 routes.use('/locais', validaToken, localRoutes);

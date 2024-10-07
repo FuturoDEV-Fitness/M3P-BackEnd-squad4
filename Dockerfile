@@ -20,6 +20,9 @@ RUN apt-get update && apt-get install -y postgresql-client && npm install -y seq
 
 EXPOSE 3000
 
-CMD ["npm", "run", "db:migrate"]
-CMD ["npm", "run", "db:seed"]
-CMD ["npm", "run", "start:prod"]
+COPY entrypoint.sh /entrypoint.sh
+
+# Adicionar permissões de execução ao script
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]

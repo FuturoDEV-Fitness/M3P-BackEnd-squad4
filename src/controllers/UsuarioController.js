@@ -58,24 +58,12 @@ class UsuarioController {
                     .json({ mensagem: "A senha é obrigatória" });
             }
 
-            if (!dados.confirmaPassword) {
-                return response
-                    .status(400)
-                    .json({ mensagem: "A confirmação da senha é obrigatória" });
-            }
-
             if (
                 !(dados.password?.length >= 8 && dados.password?.length <= 16)
             ) {
                 return response.status(400).json({
                     mensagem: "A senha deve ter entre 8 e 16 dígitos",
                 });
-            }
-
-            if (!(dados.confirmaPassword === dados.password)) {
-                return response
-                    .status(400)
-                    .json({ mensagem: "As senhas precisam ser iguais" });
             }
 
             if (!(dados.cep?.length === 8)) {
@@ -132,11 +120,10 @@ class UsuarioController {
                 dataNascimento: dados.dataNascimento,
                 email: dados.email,
                 password_hash: dados.password,
-                confirma_password_hash: dados.confirmaPassword,
                 cep: dados.cep,
                 logradouro: dados.logradouro,
                 municipio: dados.municipio,
-                uf: dados.uf,
+                uf: dados.uf
             });
 
             response.status(201).json({
@@ -146,6 +133,7 @@ class UsuarioController {
                 createdAt: usuario.createdAt,
             });
         } catch (error) {
+            console.log(error)
             response.status(500).json({
                 mensagem: "Não possível criar a conta: ",
                 error,
@@ -157,18 +145,18 @@ class UsuarioController {
         try {
             const usuarios = await Usuario.findAll({
                 attributes: [
-                    ["id", "ID do Usuário"],
-                    ["nome", "Nome do Usuário"],
-                    ["email", "Email"],
-                    ["createdAt", "Criado em"],
-                    "isOnline",
+                    "id",
+                    "nome",
+                    "email",
+                    "createdAt",
+                    "isOnline"
                 ],
                 order: ["id"],
             });
 
             if (!usuarios) {
                 return response.status(404).json({
-                    message: "Nenhum usuário encontrado",
+                    message: "Usuário não encontrado",
                 });
             }
 
@@ -202,7 +190,7 @@ class UsuarioController {
                 });
             }
 
-            if (localCadastrado) {
+            if (localCadastrado.length > 0) {
                 return response.status(400).json({
                     message:
                         "O usuário não pode ser deletado, possui locais cadastrados",
@@ -243,7 +231,6 @@ class UsuarioController {
 
             if (dados.password) {
                 usuario.password_hash = dados.password;
-                usuario.confirma_password_hash = usuario.password_hash;
             }
             await usuario.save();
             return response.status(200).json({
